@@ -4,8 +4,8 @@ workflows:
     instance_type: linux_x2
     scripts:
       - name: APK
-      script: |
-        flutter build apk --debug
+        script: |
+          flutter build apk --debug
     artifacts:
       - build/**/outputs/**/*.apk
     publishing:
