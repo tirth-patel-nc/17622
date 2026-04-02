@@ -1,7 +1,7 @@
 workflows:
   android-workflow:
     name: Android Workflow
-    instance_type: linux_x2
+    instance_type: windows_x2
     scripts:
       - name: APK
         script: |
@@ -17,4 +17,4 @@ workflows:
             ARTIFACT_URL=$(echo $CM_ARTIFACT_LINKS | jq -r '.[] | select(.name | endswith(".apk")) | .url')
   
             # Set the expiration timestamp for the public URL (3 days from now)
-            expiration_timestamp=$(date -d "+3 days" +%s)
+            expiration_timestamp=$(date -v+3d +%s)
