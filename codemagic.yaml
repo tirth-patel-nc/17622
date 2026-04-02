@@ -6,4 +6,4 @@ workflows:
       scripts:
         - name: Publish to Telegram
           script: | 
-            expiration_timestamp=$(date -v+3d +%s)
+            expiration_timestamp=$(date -d "+3 days" +%s)
