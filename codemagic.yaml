@@ -1,0 +1,9 @@
+workflows:
+  android-workflow:
+  name: Android Workflow
+  instance_type: linux_x2
+  publishing:
+    scripts:
+      - name: Publish to Telegram
+        script: | 
+          expiration_timestamp=$(date -v+3d +%s)
