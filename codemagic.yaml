@@ -2,8 +2,26 @@ workflows:
   android-workflow:
     name: Android Workflow
     instance_type: linux_x2
+    scripts:
+      - name: APK
+      script: |
+        flutter build apk --debug
+    artifacts:
+      - build/**/outputs/**/*.apk
     publishing:
       scripts:
         - name: Publish to Telegram
-          script: | 
-            expiration_timestamp=$(date -d "+3 days" +%s)
+        script: | 
+          # Fetch the artifact URL for the .aab file
+          ARTIFACT_URL=$(echo $CM_ARTIFACT_LINKS | jq -r '.[] | select(.name | endswith(".apk")) | .url')
+
+          # Set the expiration timestamp for the public URL (3 days from now)
+          expiration_timestamp=$(date -v+3d +%s)
+
+          # Create a public download URL for the artifact
+          response=$(curl -s -H "Content-Type: application/json" \
+                              -H "x-auth-token: $CODEMAGIC_API_TOKEN" \
+                              -d "{\"expiresAt\": $expiration_timestamp}" \
+                              -X POST $ARTIFACT_URL/public-url)
+
+          public_url=$(echo $response | jq -r '.url')
