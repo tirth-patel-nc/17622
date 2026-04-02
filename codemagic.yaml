@@ -5,6 +5,7 @@ workflows:
     scripts:
       - name: APK
         script: |
+          flutter pub get
           flutter build apk --debug
     artifacts:
       - build/**/outputs/**/*.apk
